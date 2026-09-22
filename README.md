@@ -2,26 +2,64 @@
 
 **Runtime 1.1.4 · by arribbaa**
 
-Up to **10 total players** in private Classic and Versus lobbies.
+Up to **10 total players** in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE selection: the mod does not impose equal teams or a separate five-player quota per side.
 
-## v0.2.33
+[Download on Nexus](https://www.nexusmods.com/mimicparty/mods/1) · [GitHub downloads](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/releases/latest) · [Report an issue](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/issues)
 
-Runtime 1.1.4 adds the new captured v0.2.33 GameAssembly fingerprint. The shared Classic/Versus capacity helper still exists exactly once with the same verified stock 5/4 signature:
+## Requirements
+
+- [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.2**
+- [Mimic Party Modding Core](https://www.nexusmods.com/mimicparty/mods/2) **1.0.0**
+- Windows x64 / Steam / IL2CPP build listed in [Compatibility](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md)
+
+The main ZIP contains the Expansion only. Install both requirements separately.
+
+## Installation / update
+
+1. Close Mimic Party.
+2. Install/update BepInEx Pack 1.0.2 in the folder containing `Mimic Party.exe`.
+3. Install Core 1.0.0 into the same folder.
+4. Extract this Expansion ZIP there; it adds/replaces `BepInEx/plugins/MimicParty10PlayerExpansion.dll`.
+5. Launch normally through Steam and allow interop generation to finish when required.
+
+## Features and settings
+
+Classic and Versus share the configured **total** capacity, default 10. After a successful start, close the game and edit:
+
+`BepInEx/config/com.arribbaa.mimicparty.10playerexpansion.cfg`
+
+```ini
+[Multiplayer]
+MaxPlayers = 10
+```
+
+Allowed range: **6–10**. Values outside it are clamped.
+
+Runtime 1.1.4 explicitly recognizes the captured v0.2.33 GameAssembly fingerprint. The same shared Classic/Versus capacity helper remains present exactly once with stock behavior Classic 5 / Versus 4:
 
 `33 C0 83 F9 01 0F 95 C0 83 C0 04 C3`
 
-Current helper RVA: `0x1FCA310`.
+On v0.2.33 the helper is located at RVA `0x1FCA310`; the actual runtime patch begins at RVA `0x1FCA315`. The patch remains signature-based, fail-closed to known builds, and performs its live 10/10/10 helper self-check before declaring the Expansion active.
 
-Required reflected targets are still present for:
-- FusionNetworkService.get_MaxPlayers
-- OfflineNetworkService.get_MaxPlayers
-- RoundController.SetPhase
-- RoundController.PublishCurrentPlayer
-- VoiceDirector.get_Open
-- ResultsScreen.LaunchRematch
-- ResultsScreen.DropSilentPlayers
-- GameState.ResetForRematch
+The Expansion also installs the existing playback voice-isolation and rematch keep-lobby hooks. The v0.2.33 generated interop assemblies retain all required reflected targets. Public room-browser behavior is not spoofed by directly editing remote `RoomListing` values.
 
-Requirements:
-- BepInEx Pack 1.0.2
-- Modding Core 1.0.0
+## v0.2.33 live acceptance
+
+A real Windows v0.2.33 session confirmed:
+
+- Bootstrap/Core loaded successfully.
+- Every required Expansion hook target resolved.
+- Every Harmony hook installed.
+- Shared native capacity patch applied.
+- Capacity self-check returned **10 / 10 / 10**.
+- Classic mode card displayed **Up to 10 players**.
+- Versus mode card displayed **Up to 10 players**.
+- Classic private lobby displayed **1/10**.
+
+## Removal and troubleshooting
+
+Close the game and remove only `BepInEx/plugins/MimicParty10PlayerExpansion.dll`. Keep Core/Pack if other mods use them. Native capacity changes are in memory and disappear when the process exits.
+
+Unrecognized game version or loader failure: do not force the patch; check `BepInEx/LogOutput.log`.
+
+[Compatibility](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md) · [Changelog](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/CHANGELOG.md) · [Build instructions](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/BUILDING.md) · [License](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/LICENSE.txt) · [Security](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/SECURITY.md)
