@@ -1,11 +1,52 @@
 [size=5][b]10 Player Expansion for Mimic Party[/b][/size]
 [b]Runtime 1.1.4 · by arribbaa[/b]
 
-Up to [b]10 total players[/b] in private Classic and Versus lobbies.
+Up to [b]10 total players[/b] in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE team selection; the mod does not force equal teams or a five-player quota per side.
+
+[size=4][b]Required downloads[/b][/size]
+[url=https://www.nexusmods.com/mimicparty/mods/3]BepInEx Pack for Mimic Party 1.0.2[/url]
+[url=https://www.nexusmods.com/mimicparty/mods/2]Mimic Party Modding Core 1.0.0[/url]
+
+[b]The main ZIP contains the Expansion only.[/b]
+
+[size=4][b]Installation / update[/b][/size]
+1. Close Mimic Party.
+2. Install/update BepInEx Pack 1.0.2 into the folder containing Mimic Party.exe.
+3. Install Core 1.0.0 into the same folder.
+4. Extract this Expansion ZIP there; it adds/replaces BepInEx/plugins/MimicParty10PlayerExpansion.dll.
+5. Launch through Steam and allow interop generation to finish when required.
 
 [size=4][b]v0.2.33 update[/b][/size]
-1.1.4 adds support for the new Mimic Party v0.2.33 build. The shared stock Classic/Versus capacity helper remains structurally unchanged and unique, and all required runtime hook targets are still present.
+Runtime 1.1.4 adds explicit support for the captured Mimic Party v0.2.33 GameAssembly fingerprint. The shared Classic/Versus capacity helper still exists exactly once with the same stock 5/4 signature. The mod continues to patch that helper in memory and runs its live capacity self-check before reporting success.
 
-[size=4][b]Requirements[/b][/size]
-[url=https://www.nexusmods.com/mimicparty/mods/3]BepInEx Pack 1.0.2[/url]
-[url=https://www.nexusmods.com/mimicparty/mods/2]Modding Core 1.0.0[/url]
+The required max-player, playback voice and rematch hook targets remain present in the v0.2.33 interop assemblies.
+
+Live acceptance passed on v0.2.33:
+[list]
+[*]all required hooks resolved and installed
+[*]native shared capacity patch applied
+[*]capacity self-check 10 / 10 / 10
+[*]Classic: Up to 10 players
+[*]Versus: Up to 10 players
+[*]Classic private lobby: 1/10
+[/list]
+
+The new public room browser is not spoofed by patching remote RoomListing values. Large-group public-room-browser, full 10-client match and every voice/rematch edge case are not claimed as fully verified.
+
+[size=4][b]Configuration[/b][/size]
+[code][Multiplayer]
+MaxPlayers = 10[/code]
+Range: 6-10. Restart after changing it.
+
+[size=4][b]Compatibility[/b][/size]
+Supported captured fingerprints include v0.1.73, v0.2.3 and v0.2.33. Unknown future game builds are not automatically supported.
+[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md]Exact hashes and verification details[/url]
+
+[size=4][b]Removal and support[/b][/size]
+Close the game and remove only BepInEx/plugins/MimicParty10PlayerExpansion.dll. Keep Core/Pack if other mods use them. Capacity patches are in memory and disappear at process exit.
+
+For errors, include versions and a sanitized BepInEx/LogOutput.log excerpt.
+[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion]Source and releases[/url]
+[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/issues]Issue tracker[/url]
+
+Mod author and maintainer: arribbaa. Unofficial community mod; no endorsement is implied.
