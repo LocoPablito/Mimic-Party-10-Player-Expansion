@@ -1,0 +1,36 @@
+name: v0.2.3 compatibility build
+on:
+  push:
+    branches: ['release/v0.2.3-compat']
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+        with:
+          repository: LocoPablito/MimicParty-Modding
+          ref: 124cb4e1344a8ee192fe41d5616c43e4bb670aa0
+          path: _deps/MimicParty-Modding
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.425'
+      - name: Compile Expansion
+        shell: pwsh
+        run: ./build.ps1
+      - name: Stage compatibility binary
+        shell: pwsh
+        run: |
+          $dll = 'src/MimicParty.TenPlayerExpansion/bin/Release/net6.0/MimicParty10PlayerExpansion.dll'
+          if (!(Test-Path $dll)) { throw 'Expansion DLL missing after build' }
+          New-Item -ItemType Directory -Force compat-dist | Out-Null
+          Copy-Item $dll compat-dist/
+          $hash = (Get-FileHash $dll -Algorithm SHA256).Hash.ToLowerInvariant()
+          "MimicParty10PlayerExpansion.dll $hash" | Tee-Object -FilePath compat-dist/SHA256.txt
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ten-player-v113-v023
+          path: compat-dist/
+          retention-days: 14
