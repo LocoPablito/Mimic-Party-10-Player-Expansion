@@ -7,25 +7,20 @@ namespace Arribbaa.MimicParty.TenPlayerExpansion;
 
 internal static class NativeCapacityPatches
 {
-    // Supported September builds use one shared Classic/Versus capacity helper:
-    // stock behavior returns 5 for Classic and 4 for Versus. Patch the helper's
-    // return path so the configured total room capacity applies to BOTH modes.
-    //
-    // The v0.2.3 / Sep 22 build moved the helper in GameAssembly.dll but retained
-    // the exact unique signature and semantics. Keep build allowlisting fail-closed
-    // so an unknown future binary never falls through to this native patch path.
     private const string DynamicCapacityBuildV0173Sha256 =
         "44bbc82bdae73c1c86559a1f091ee9c7a3ae510a02c2d83f16b686ecdd9c8b11";
 
     private const string DynamicCapacityBuildV023Sha256 =
         "adc318d8ad108a2eac4e130421d20c21aef840d8ec44203fba667d6eef08e199";
 
+    private const string DynamicCapacityBuildV0233Sha256 =
+        "03757842d82c83534a686b0acbf247c9a5b76d0a15c74c7cb27458e731d4b9d4";
+
     private const string DynamicCapacityHelper =
         "33 C0 83 F9 01 0F 95 C0 83 C0 04 C3";
 
     private const string DynamicPatchName = "Shared Classic/Versus capacity helper";
 
-    // Legacy runtime signatures used by the earlier supported September builds.
     private const string HostCapacityGate =
         "48 8B 43 40 48 85 C0 0F 84 ?? ?? ?? ?? 83 78 18 05 " +
         "0F 8D ?? ?? ?? ?? 48 8B 0D ?? ?? ?? ?? 83 B9 E4 00 00 00 00";
@@ -54,19 +49,6 @@ internal static class NativeCapacityPatches
 
         if (IsDynamicCapacityBuild())
         {
-            // Original bytes at +5:
-            //   0F 95 C0       setne al
-            //   83 C0 04       add eax, 4
-            //   C3             ret
-            //
-            // Replacement:
-            //   B8 xx 00 00 00 mov eax, desiredMaxPlayers
-            //   C3             ret
-            //   90             nop
-            //
-            // The earlier xor/cmp instructions remain harmless. The result no longer
-            // differs by mode, so Classic and Versus both advertise/use the configured
-            // total room capacity.
             return CoreApi.CreatePatchTransaction(PluginConstants.Guid)
                 .Add(
                     DynamicPatchName,
@@ -118,10 +100,6 @@ internal static class NativeCapacityPatches
         }
 
         RuntimePatchHandle handle = handles.Single(h => h.Name == DynamicPatchName);
-
-        // The handle targets +5 of the 12-byte helper. Subtract five bytes to call
-        // the helper itself. It is a side-effect-free leaf function whose sole input
-        // is the mode selector in the first integer argument.
         IntPtr helperAddress = IntPtr.Subtract(handle.Address, 5);
         CapacityHelperProbe probe =
             Marshal.GetDelegateForFunctionPointer<CapacityHelperProbe>(helperAddress);
@@ -151,6 +129,7 @@ internal static class NativeCapacityPatches
     {
         string hash = CoreApi.Build.GameAssemblySha256;
         return string.Equals(hash, DynamicCapacityBuildV0173Sha256, StringComparison.OrdinalIgnoreCase) ||
-               string.Equals(hash, DynamicCapacityBuildV023Sha256, StringComparison.OrdinalIgnoreCase);
+               string.Equals(hash, DynamicCapacityBuildV023Sha256, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(hash, DynamicCapacityBuildV0233Sha256, StringComparison.OrdinalIgnoreCase);
     }
 }

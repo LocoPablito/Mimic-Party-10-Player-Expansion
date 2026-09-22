@@ -1,6 +1,6 @@
 # 10 Player Expansion for Mimic Party
 
-**Runtime 1.1.3 · by arribbaa**
+**Runtime 1.1.4 · by arribbaa**
 
 Up to **10 total players** in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE selection: the mod does not impose equal teams or a separate five-player quota per side.
 
@@ -8,7 +8,7 @@ Up to **10 total players** in private Classic and Versus lobbies. Versus keeps t
 
 ## Requirements
 
-- [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.1**
+- [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.2**
 - [Mimic Party Modding Core](https://www.nexusmods.com/mimicparty/mods/2) **1.0.0**
 - Windows x64 / Steam / IL2CPP build listed in [Compatibility](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md)
 
@@ -17,7 +17,7 @@ The main ZIP contains the Expansion only. Install both requirements separately.
 ## Installation / update
 
 1. Close Mimic Party.
-2. Install/update BepInEx Pack 1.0.1 in the folder containing `Mimic Party.exe`.
+2. Install/update BepInEx Pack 1.0.2 in the folder containing `Mimic Party.exe`.
 3. Install Core 1.0.0 into the same folder.
 4. Extract this Expansion ZIP there; it adds/replaces `BepInEx/plugins/MimicParty10PlayerExpansion.dll`.
 5. Launch normally through Steam and allow interop generation to finish when required.
@@ -35,9 +35,26 @@ MaxPlayers = 10
 
 Allowed range: **6–10**. Values outside it are clamped.
 
-Runtime 1.1.3 explicitly recognizes both captured shared-capacity-helper builds. Mimic Party v0.2.3 moved the helper in GameAssembly.dll but retained the exact unique signature and stock behavior (Classic 5, Versus 4). The runtime patch remains signature-based and performs its live 10/10/10 helper self-check before declaring the Expansion active.
+Runtime 1.1.4 explicitly recognizes the captured v0.2.33 GameAssembly fingerprint. The same shared Classic/Versus capacity helper remains present exactly once with stock behavior Classic 5 / Versus 4:
 
-The Expansion also installs the existing playback voice-isolation and rematch keep-lobby hooks. v0.2.3 retains the required reflected targets. The new room-browser types are present in the build; public-room behavior is part of the live acceptance boundary rather than being rewritten blindly.
+`33 C0 83 F9 01 0F 95 C0 83 C0 04 C3`
+
+On v0.2.33 the helper is located at RVA `0x1FCA310`; the actual runtime patch begins at RVA `0x1FCA315`. The patch remains signature-based, fail-closed to known builds, and performs its live 10/10/10 helper self-check before declaring the Expansion active.
+
+The Expansion also installs the existing playback voice-isolation and rematch keep-lobby hooks. The v0.2.33 generated interop assemblies retain all required reflected targets. Public room-browser behavior is not spoofed by directly editing remote `RoomListing` values.
+
+## v0.2.33 live acceptance
+
+A real Windows v0.2.33 session confirmed:
+
+- Bootstrap/Core loaded successfully.
+- Every required Expansion hook target resolved.
+- Every Harmony hook installed.
+- Shared native capacity patch applied.
+- Capacity self-check returned **10 / 10 / 10**.
+- Classic mode card displayed **Up to 10 players**.
+- Versus mode card displayed **Up to 10 players**.
+- Classic private lobby displayed **1/10**.
 
 ## Removal and troubleshooting
 
