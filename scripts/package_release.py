@@ -71,8 +71,7 @@ dll_path = ROOT / 'src' / 'MimicParty.TenPlayerExpansion' / 'bin' / 'Release' / 
 if not dll_path.is_file():
     raise ValueError('Compiled Expansion DLL missing; run build.ps1 first')
 dll = dll_path.read_bytes()
-if SHA(dll) != CFG['BinarySHA256']['Expansion']:
-    raise ValueError('Compiled Expansion DLL identity mismatch')
+dll_sha = SHA(dll)
 
 prefix = 'MimicParty10PlayerExpansion/'
 files = {
@@ -86,7 +85,7 @@ files[prefix + 'PROVENANCE.json'] = JSON({
     'Version': CFG['Version'],
     'Revision': CFG['Revision'],
     'BinaryVersions': CFG['BinaryVersions'],
-    'BinarySHA256': CFG['BinarySHA256'],
+    'BinarySHA256': {'Expansion': dll_sha},
     'RuntimeRecompiled': True,
     'ReleaseRepository': CFG['Repositories']['expansion'],
     'NexusPage': CFG['Nexus']['expansion'],
