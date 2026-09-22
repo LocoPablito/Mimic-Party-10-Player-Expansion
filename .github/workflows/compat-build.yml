@@ -1,11 +1,11 @@
-name: v0.2.3 compatibility build
+name: v0.2.3 compatibility package
 on:
   push:
     branches: ['release/v0.2.3-compat']
 permissions:
   contents: read
 jobs:
-  build:
+  package:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
@@ -17,20 +17,19 @@ jobs:
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.425'
-      - name: Compile Expansion
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compile Expansion 1.1.3
         shell: pwsh
         run: ./build.ps1
-      - name: Stage compatibility binary
+      - name: Assemble Expansion 1.1.3 R1 candidate
         shell: pwsh
         run: |
-          $dll = 'src/MimicParty.TenPlayerExpansion/bin/Release/net6.0/MimicParty10PlayerExpansion.dll'
-          if (!(Test-Path $dll)) { throw 'Expansion DLL missing after build' }
-          New-Item -ItemType Directory -Force compat-dist | Out-Null
-          Copy-Item $dll compat-dist/
-          $hash = (Get-FileHash $dll -Algorithm SHA256).Hash.ToLowerInvariant()
-          "MimicParty10PlayerExpansion.dll $hash" | Tee-Object -FilePath compat-dist/SHA256.txt
+          python scripts/package_release.py
+          if ($LASTEXITCODE -ne 0) { throw 'Archive verification failed' }
       - uses: actions/upload-artifact@v6
         with:
-          name: ten-player-v113-v023
-          path: compat-dist/
+          name: ten-player-v113-r1-candidate
+          path: dist/
           retention-days: 14
