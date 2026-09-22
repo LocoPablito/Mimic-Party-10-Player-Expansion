@@ -2,7 +2,7 @@
 
 **Runtime 1.1.3 · by arribbaa**
 
-Up to **10 total players** in Classic and Versus lobbies. Versus keeps the game's RED/BLUE selection: the mod does not impose equal teams or a separate five-player quota per side.
+Up to **10 total players** in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE selection: the mod does not impose equal teams or a separate five-player quota per side.
 
 [Download on Nexus](https://www.nexusmods.com/mimicparty/mods/1) · [GitHub downloads](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/releases/latest) · [Report an issue](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/issues)
 
