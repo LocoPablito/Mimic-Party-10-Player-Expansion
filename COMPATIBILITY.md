@@ -2,23 +2,75 @@
 
 ## Mimic Party v0.2.33 — captured 22 September 2026
 
-GameAssembly:
+- Windows x64 / Steam / IL2CPP
+- Unity 6000.4.2f1
+- BepInEx 6.0.0-be.788
+- BepInEx Pack **1.0.2**
+- Modding Core **1.0.0**
+- Expansion **1.1.4**
+
+GameAssembly.dll SHA-256:
 `03757842d82c83534a686b0acbf247c9a5b76d0a15c74c7cb27458e731d4b9d4`
 
-Metadata:
+Metadata SHA-256:
 `7f4b0ab25b7ba8ee05d9abebd507d3e2af29bd94c5ae48f4daadc2ddedc8bbf2`
 
-Shared capacity helper:
-- unique matches: **1**
-- signature: `33 C0 83 F9 01 0F 95 C0 83 C0 04 C3`
-- RVA: `0x1FCA310`
-- stock behavior: Classic 5 / Versus 4
+Static compatibility verification found exactly one copy of the shared capacity helper signature:
 
-Required method contracts were checked in the generated v0.2.33 interop assemblies and remain present with the expected arities.
+`33 C0 83 F9 01 0F 95 C0 83 C0 04 C3`
 
-Requirements:
-- BepInEx Pack 1.0.2
-- Modding Core 1.0.0
-- Expansion 1.1.4
+Its stock semantics remain Classic 5 / Versus 4.
 
-A live 10/10/10 runtime self-check is still required before release publication.
+Helper RVA:
+`0x1FCA310`
+
+Runtime patch start:
+`0x1FCA315`
+
+The v0.2.33 generated interop assemblies retain the required hook targets:
+
+- `FusionNetworkService.get_MaxPlayers()`
+- `OfflineNetworkService.get_MaxPlayers()`
+- `RoundController.SetPhase(RoundPhase)`
+- `RoundController.PublishCurrentPlayer(Int32)`
+- `VoiceDirector.get_Open()`
+- `ResultsScreen.LaunchRematch(INetworkService)`
+- `ResultsScreen.DropSilentPlayers(INetworkService)`
+- `GameState.ResetForRematch()`
+
+### Live acceptance
+
+A real v0.2.33 Windows run confirmed:
+
+- all required hook targets resolved,
+- all Harmony hooks installed,
+- the native shared-capacity patch applied at RVA `0x1FCA315`,
+- self-check `mode0=10, mode1=10, mode2=10`,
+- Classic and Versus cards displayed **Up to 10 players**,
+- the Classic private lobby displayed **1/10**.
+
+The public room-browser/session-listing API remains present. Expansion 1.1.4 does not falsify remote `RoomListing` values. Public room-browser end-to-end behavior with a large live group is not claimed as fully verified.
+
+## Mimic Party v0.2.3 — captured 22 September 2026
+
+GameAssembly.dll SHA-256:
+`adc318d8ad108a2eac4e130421d20c21aef840d8ec44203fba667d6eef08e199`
+
+Metadata SHA-256:
+`96b52e058bbf5ea2a5218a2a6c01a9391c72eda9432b640bbdce8d2c10060405`
+
+Expansion 1.1.3 passed startup, hook installation and 10/10/10 helper verification on this build.
+
+## Mimic Party v0.1.73 — captured 11 September 2026
+
+GameAssembly.dll SHA-256:
+`44bbc82bdae73c1c86559a1f091ee9c7a3ae510a02c2d83f16b686ecdd9c8b11`
+
+Metadata SHA-256:
+`1586b9dd69e488706671d35490cc16377a612ca3af521031ac44464929b21e94`
+
+Expansion 1.1.2 and Core 1.0.0 loaded in the documented Windows session; the shared helper returned 10 for checked selectors and Classic displayed 1/10.
+
+## Verification boundary
+
+A complete ten-client match, every Versus team distribution and full large-group audio/rematch behavior are not implied by hook installation alone. Future game builds are not automatically supported.
