@@ -7,14 +7,18 @@ namespace Arribbaa.MimicParty.TenPlayerExpansion;
 
 internal static class NativeCapacityPatches
 {
-    // 2026-09-11 later Steam update: the previous four inline capacity constants
-    // were refactored into one shared mode helper. Stock behavior returns 5 for
-    // Classic and 4 for Versus. Patch the helper's return path itself so the
-    // configured total room capacity applies to BOTH modes. In Versus the mod does
-    // not enforce a team split: players choose RED/BLUE themselves, while the room
-    // itself can hold up to the configured total (10 by default).
-    private const string DynamicCapacityBuildSha256 =
+    // Supported September builds use one shared Classic/Versus capacity helper:
+    // stock behavior returns 5 for Classic and 4 for Versus. Patch the helper's
+    // return path so the configured total room capacity applies to BOTH modes.
+    //
+    // The v0.2.3 / Sep 22 build moved the helper in GameAssembly.dll but retained
+    // the exact unique signature and semantics. Keep build allowlisting fail-closed
+    // so an unknown future binary never falls through to this native patch path.
+    private const string DynamicCapacityBuildV0173Sha256 =
         "44bbc82bdae73c1c86559a1f091ee9c7a3ae510a02c2d83f16b686ecdd9c8b11";
+
+    private const string DynamicCapacityBuildV023Sha256 =
+        "adc318d8ad108a2eac4e130421d20c21aef840d8ec44203fba667d6eef08e199";
 
     private const string DynamicCapacityHelper =
         "33 C0 83 F9 01 0F 95 C0 83 C0 04 C3";
@@ -119,7 +123,8 @@ internal static class NativeCapacityPatches
         // the helper itself. It is a side-effect-free leaf function whose sole input
         // is the mode selector in the first integer argument.
         IntPtr helperAddress = IntPtr.Subtract(handle.Address, 5);
-        CapacityHelperProbe probe = Marshal.GetDelegateForFunctionPointer<CapacityHelperProbe>(helperAddress);
+        CapacityHelperProbe probe =
+            Marshal.GetDelegateForFunctionPointer<CapacityHelperProbe>(helperAddress);
 
         int mode0 = probe(0);
         int mode1 = probe(1);
@@ -133,16 +138,19 @@ internal static class NativeCapacityPatches
             mode2 != desiredMaxPlayers)
         {
             throw new InvalidOperationException(
-                $"Capacity self-check failed. Expected {desiredMaxPlayers}; got mode0={mode0}, mode1={mode1}, mode2={mode2}.");
+                $"Capacity self-check failed. Expected {desiredMaxPlayers}; " +
+                $"got mode0={mode0}, mode1={mode1}, mode2={mode2}.");
         }
 
         log.LogInfo(
-            $"CAPACITY SELF-CHECK PASS: the patched 11 Sep 2026 shared helper returns {desiredMaxPlayers} for all tested mode selectors. No additional players are required for this verification.");
+            $"CAPACITY SELF-CHECK PASS: the verified shared helper returns {desiredMaxPlayers} " +
+            "for all tested mode selectors. No additional players are required for this verification.");
     }
 
-    private static bool IsDynamicCapacityBuild() =>
-        string.Equals(
-            CoreApi.Build.GameAssemblySha256,
-            DynamicCapacityBuildSha256,
-            StringComparison.OrdinalIgnoreCase);
+    private static bool IsDynamicCapacityBuild()
+    {
+        string hash = CoreApi.Build.GameAssemblySha256;
+        return string.Equals(hash, DynamicCapacityBuildV0173Sha256, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(hash, DynamicCapacityBuildV023Sha256, StringComparison.OrdinalIgnoreCase);
+    }
 }

@@ -1,46 +1,40 @@
 [size=5][b]10 Player Expansion for Mimic Party[/b][/size]
-[b]Runtime 1.1.2 · by arribbaa[/b]
+[b]Runtime 1.1.3 · by arribbaa[/b]
 
-Up to [b]10 total players[/b] in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE team selection. The mod does not enforce a five-player quota per side or equal teams.
+Up to [b]10 total players[/b] in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE team selection; the mod does not force equal teams or a five-player quota per side.
 
 [size=4][b]Required downloads[/b][/size]
-[url=https://www.nexusmods.com/mimicparty/mods/3]BepInEx Pack for Mimic Party 1.0.0[/url]
+[url=https://www.nexusmods.com/mimicparty/mods/3]BepInEx Pack for Mimic Party 1.0.1[/url]
 [url=https://www.nexusmods.com/mimicparty/mods/2]Mimic Party Modding Core 1.0.0[/url]
-Mimic Party Windows x64 / Steam, documented v0.1.73 build, Unity 6000.4.2f1.
 
-[b]The current R3 main ZIP contains the Expansion only.[/b] Install both requirements separately. It does not include BepInEx, Core or Interop Bootstrap. The older Complete download already includes Core/Bootstrap and needs the Pack, not another Core copy.
+[b]The main ZIP contains the Expansion only.[/b]
 
-[size=4][b]Installation[/b][/size]
-1. Close the game. When migrating from the old v1.0.x on-disk patch, restore original game files with its uninstaller or Steam Verify integrity first.
-2. Extract the BepInEx Pack into the folder containing Mimic Party.exe.
-3. Extract the Core runtime ZIP into that same folder.
-4. Extract this Expansion ZIP there; it adds BepInEx/plugins/MimicParty10PlayerExpansion.dll.
-5. Launch normally through Steam and create a private lobby. Allow initial interop generation to finish.
+[size=4][b]Installation / update[/b][/size]
+1. Close Mimic Party.
+2. Install/update BepInEx Pack 1.0.1 into the folder containing Mimic Party.exe.
+3. Install Core 1.0.0 into the same folder.
+4. Extract this Expansion ZIP there; it adds/replaces BepInEx/plugins/MimicParty10PlayerExpansion.dll.
+5. Launch through Steam and allow interop generation to finish when required.
 
-Use matching versions across your group. Do not run old private repair installers or install renamed duplicate DLLs. A working 1.1.2 installation does not need its interop cache regenerated for R3.
+[size=4][b]v0.2.3 update[/b][/size]
+Runtime 1.1.3 adds explicit support for the captured Mimic Party v0.2.3 GameAssembly fingerprint. The game moved the shared Classic/Versus capacity helper but retained its exact unique signature and stock 5/4 behavior. The mod continues to patch that helper in memory and runs its live capacity self-check before reporting success.
 
-[size=4][b]Features and configuration[/b][/size]
-Classic and Versus share a total capacity of 10 by default. After a successful launch, close the game and open:
-BepInEx/config/com.arribbaa.mimicparty.10playerexpansion.cfg
+The required max-player, playback voice and rematch hook targets remain present in the v0.2.3 interop assemblies. The new public room browser is not spoofed by patching RoomListing values; it is expected to reflect the actual session capacity and is part of live acceptance testing.
 
+[size=4][b]Configuration[/b][/size]
 [code][Multiplayer]
 MaxPlayers = 10[/code]
-
-Range: 6-10; out-of-range values are clamped. Restart after changes. No automatic team balancing is imposed. The documented build shows updated mode-card values and Classic 1/10 when alone. Versus still needs at least two players to start; that is a minimum, not its capacity.
-
-The Expansion also installs hooks intended to suppress live voice during playback and retain the lobby during rematch. It does not replace Workshop sound packs. Full large-group audio/rematch behaviour is not confirmed by hook installation alone.
+Range: 6-10. Restart after changing it.
 
 [size=4][b]Compatibility[/b][/size]
-The released Expansion 1.1.2 and Core 1.0.0 loaded in the documented Windows game session. The shared capacity helper returned 10 for the checked selectors. A complete ten-client session and every team distribution are not confirmed. The earlier seven-person session reported by the author used a previous release.
-A fresh Windows game launch through the automatic Pack bootstrap route remains separately unconfirmed. Future game updates are not automatically supported.
-[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md]Exact supported-build information[/url]
+Supported captured fingerprints include v0.1.73 and v0.2.3. Unknown future game builds are not automatically supported.
+[url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md]Exact hashes and verification details[/url]
 
-[size=4][b]Update, removal and support[/b][/size]
-R3 changes packaging and documentation only; the Expansion runtime DLL is unchanged. Documentation now lives in MimicParty10PlayerExpansion/ to avoid overwriting other guides.
-Close the game and remove only BepInEx/plugins/MimicParty10PlayerExpansion.dll to uninstall the feature. Keep Core/Pack if other mods use them. Capacity patches are in memory and disappear at process exit.
+[size=4][b]Removal and support[/b][/size]
+Close the game and remove only BepInEx/plugins/MimicParty10PlayerExpansion.dll. Keep Core/Pack if other mods use them. Capacity patches are in memory and disappear at process exit.
 
-For errors, check BepInEx/LogOutput.log and include versions plus a sanitized excerpt. Never post game binaries or private diagnostic ZIPs. Do not disable security protection as an installation step.
+For errors, include versions and a sanitized BepInEx/LogOutput.log excerpt.
 [url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion]Source and releases[/url]
 [url=https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/issues]Issue tracker[/url]
 
-Mod author and maintainer: arribbaa. External loader/dependencies: BepInEx, HarmonyX and their respective contributors. Mimic Party and Unity belong to their respective owners. Unofficial community mod; no endorsement is implied.
+Mod author and maintainer: arribbaa. Unofficial community mod; no endorsement is implied.
