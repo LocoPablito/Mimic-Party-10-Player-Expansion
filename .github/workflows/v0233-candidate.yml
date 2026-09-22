@@ -1,0 +1,35 @@
+name: v0.2.33 compatibility candidate
+on:
+  push:
+    branches: ['release/v0.2.33-compat']
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+        with:
+          repository: LocoPablito/MimicParty-Modding
+          ref: 151efc71984e3c952756b4262b5a47e60b4e845e
+          path: _deps/MimicParty-Modding
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.425'
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compile Expansion 1.1.4
+        shell: pwsh
+        run: ./build.ps1
+      - name: Package candidate
+        shell: pwsh
+        run: |
+          python scripts/package_release.py
+          if ($LASTEXITCODE -ne 0) { throw 'Expansion candidate packaging failed' }
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ten-player-v114-r1-v0233
+          path: dist/
+          retention-days: 14
