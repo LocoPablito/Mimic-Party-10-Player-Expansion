@@ -1,6 +1,6 @@
 # 10 Player Expansion for Mimic Party
 
-**Runtime 1.1.4 · by arribbaa**
+**Runtime 1.1.5 · by arribbaa**
 
 Up to **10 total players** in private Classic and Versus lobbies. Versus keeps the game's RED/BLUE selection: the mod does not impose equal teams or a separate five-player quota per side.
 
@@ -8,7 +8,7 @@ Up to **10 total players** in private Classic and Versus lobbies. Versus keeps t
 
 ## Requirements
 
-- [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.2**
+- [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.3**
 - [Mimic Party Modding Core](https://www.nexusmods.com/mimicparty/mods/2) **1.0.0**
 - Windows x64 / Steam / IL2CPP build listed in [Compatibility](https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion/blob/main/COMPATIBILITY.md)
 
@@ -17,7 +17,7 @@ The main ZIP contains the Expansion only. Install both requirements separately.
 ## Installation / update
 
 1. Close Mimic Party.
-2. Install/update BepInEx Pack 1.0.2 in the folder containing `Mimic Party.exe`.
+2. Install/update BepInEx Pack 1.0.3 in the folder containing `Mimic Party.exe`.
 3. Install Core 1.0.0 into the same folder.
 4. Extract this Expansion ZIP there; it adds/replaces `BepInEx/plugins/MimicParty10PlayerExpansion.dll`.
 5. Launch normally through Steam and allow interop generation to finish when required.
@@ -35,15 +35,17 @@ MaxPlayers = 10
 
 Allowed range: **6–10**. Values outside it are clamped.
 
-Runtime 1.1.4 explicitly recognizes the captured v0.2.33 GameAssembly fingerprint. The same shared Classic/Versus capacity helper remains present exactly once with stock behavior Classic 5 / Versus 4:
+Runtime 1.1.5 explicitly recognizes the captured v0.2.5 / Steam build 25629135 GameAssembly fingerprint. The same shared Classic/Versus capacity helper remains present exactly once with stock behavior Classic 5 / Versus 4:
 
 `33 C0 83 F9 01 0F 95 C0 83 C0 04 C3`
 
-On v0.2.33 the helper is located at RVA `0x1FCA310`; the actual runtime patch begins at RVA `0x1FCA315`. The patch remains signature-based, fail-closed to known builds, and performs its live 10/10/10 helper self-check before declaring the Expansion active.
+On v0.2.5 the helper is located at RVA `0x1F8D910`; the actual runtime patch begins at RVA `0x1F8D915`. The patch remains signature-based, fail-closed to explicitly supported builds, verifies the expected bytes transactionally and performs its live 10/10/10 helper self-check before declaring the Expansion active.
 
-The Expansion also installs the existing playback voice-isolation and rematch keep-lobby hooks. The v0.2.33 generated interop assemblies retain all required reflected targets. Public room-browser behavior is not spoofed by directly editing remote `RoomListing` values.
+The captured v0.2.5 interop assemblies retain all required reflected target names for max-player, playback voice-isolation and rematch behavior. Public room-browser values are still not spoofed by directly editing remote `RoomListing` data.
 
-## v0.2.33 live acceptance
+**v0.2.5 status:** static compatibility checks are complete; this 1.1.5 build is a prerelease candidate until the coordinated live acceptance run passes.
+
+## v0.2.33 historical live acceptance
 
 A real Windows v0.2.33 session confirmed:
 

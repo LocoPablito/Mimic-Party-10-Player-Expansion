@@ -1,5 +1,16 @@
 # Changelog
 
+## Runtime 1.1.5 — 30 September 2026
+
+- Adds explicit support for the captured Mimic Party **v0.2.5 / Steam build 25629135** GameAssembly fingerprint.
+- Confirms the shared Classic/Versus capacity-helper signature remains unique and still encodes stock Classic 5 / Versus 4 behavior.
+- Records the new helper RVA `0x1F8D910`; runtime patch application begins at `0x1F8D915`.
+- Explicitly routes v0.2.5 through the shared-helper path; the four legacy capacity patterns have no matches in the captured build.
+- Revalidates the required v0.2.5 interop target names for max-player, playback voice-isolation and rematch hooks.
+- Preserves the runtime 10/10/10 helper self-check and transactional patch verification.
+- Requires the BepInEx Pack **1.0.3** compatibility candidate for the new interop fingerprint.
+- Published as a **prerelease compatibility candidate** until live v0.2.5 hook/patch/UI acceptance passes.
+
 ## Runtime 1.1.4 — 22 September 2026
 
 - Adds explicit support for the captured Mimic Party v0.2.33 GameAssembly fingerprint.

@@ -1,5 +1,48 @@
 # Compatibility
 
+## Mimic Party v0.2.5 — captured 30 September 2026
+
+- Steam build **25629135**
+- Windows x64 / Steam / IL2CPP
+- Unity **6000.4.2f1**
+- BepInEx **6.0.0-be.788**
+- BepInEx Pack candidate **1.0.3**
+- Modding Core **1.0.0**
+- Expansion candidate **1.1.5**
+
+GameAssembly.dll SHA-256:
+`02546fc8797c32a9f98a8b93a7eefc11f52fb58e83fd51db29fd83eb5601d25a`
+
+Metadata SHA-256:
+`dded356e7a47bc941b63e4a09280bd7fb8e777bf5748366d47345363df9a9bbf`
+
+Static executable-section scanning found exactly one copy of the shared Classic/Versus capacity helper signature:
+
+`33 C0 83 F9 01 0F 95 C0 83 C0 04 C3`
+
+Its stock semantics remain Classic 5 / Versus 4.
+
+Helper RVA:
+`0x1F8D910`
+
+Runtime patch start:
+`0x1F8D915`
+
+The four legacy capacity patterns were not found, so v0.2.5 is explicitly routed through the verified shared-helper path rather than the legacy fallback.
+
+The captured v0.2.5 interop assemblies retain the required hook target names:
+
+- `FusionNetworkService.get_MaxPlayers()`
+- `OfflineNetworkService.get_MaxPlayers()`
+- `RoundController.SetPhase(RoundPhase)`
+- `RoundController.PublishCurrentPlayer(Int32)`
+- `VoiceDirector.get_Open()`
+- `ResultsScreen.LaunchRematch(INetworkService)`
+- `ResultsScreen.DropSilentPlayers(INetworkService)`
+- `GameState.ResetForRematch()`
+
+**Acceptance state:** static compatibility checks are complete. Expansion 1.1.5 is a prerelease candidate until a real v0.2.5 run confirms all Harmony hooks, the native shared-capacity patch, the 10/10/10 helper self-check and the updated Classic/Versus/lobby UI behavior.
+
 ## Mimic Party v0.2.33 — captured 22 September 2026
 
 - Windows x64 / Steam / IL2CPP

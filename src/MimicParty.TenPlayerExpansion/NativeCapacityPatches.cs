@@ -16,6 +16,9 @@ internal static class NativeCapacityPatches
     private const string DynamicCapacityBuildV0233Sha256 =
         "03757842d82c83534a686b0acbf247c9a5b76d0a15c74c7cb27458e731d4b9d4";
 
+    private const string DynamicCapacityBuildV025Sha256 =
+        "02546fc8797c32a9f98a8b93a7eefc11f52fb58e83fd51db29fd83eb5601d25a";
+
     private const string DynamicCapacityHelper =
         "33 C0 83 F9 01 0F 95 C0 83 C0 04 C3";
 
@@ -130,6 +133,7 @@ internal static class NativeCapacityPatches
         string hash = CoreApi.Build.GameAssemblySha256;
         return string.Equals(hash, DynamicCapacityBuildV0173Sha256, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(hash, DynamicCapacityBuildV023Sha256, StringComparison.OrdinalIgnoreCase) ||
-               string.Equals(hash, DynamicCapacityBuildV0233Sha256, StringComparison.OrdinalIgnoreCase);
+               string.Equals(hash, DynamicCapacityBuildV0233Sha256, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(hash, DynamicCapacityBuildV025Sha256, StringComparison.OrdinalIgnoreCase);
     }
 }
