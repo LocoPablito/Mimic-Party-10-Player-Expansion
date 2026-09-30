@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           repository: LocoPablito/MimicParty-Modding
-          ref: 8edbb809490908b00032998cc6bf7c2c770bbfb5
+          ref: de85239b8bb6955fce28ef584073cdd63b53dfcd
           path: _deps/MimicParty-Modding
       - uses: actions/setup-dotnet@v5
         with:

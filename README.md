@@ -43,7 +43,19 @@ On v0.2.5 the helper is located at RVA `0x1F8D910`; the actual runtime patch beg
 
 The captured v0.2.5 interop assemblies retain all required reflected target names for max-player, playback voice-isolation and rematch behavior. Public room-browser values are still not spoofed by directly editing remote `RoomListing` data.
 
-**v0.2.5 status:** static compatibility checks are complete; this 1.1.5 build is a prerelease candidate until the coordinated live acceptance run passes.
+**v0.2.5 status:** live verified on Steam build 25629135. All required reflected targets resolved, every Harmony hook installed, the shared native capacity patch applied at RVA `0x1F8D915`, and the runtime helper self-check returned **10 / 10 / 10**.
+
+## v0.2.5 live acceptance
+
+A real Windows v0.2.5 session confirmed:
+
+- Pack 1.0.3 completed the interop compatibility repair and the IL2CPP chainloader initialized.
+- Modding Core 1.0.0 loaded and reported the expected v0.2.5 fingerprints.
+- Every required Expansion hook target resolved.
+- Every Harmony hook installed.
+- Shared native capacity patch applied at RVA `0x1F8D915`.
+- Capacity self-check returned **10 / 10 / 10**.
+- Expansion declared itself active for 10 total Classic/Versus players.
 
 ## v0.2.33 historical live acceptance
 

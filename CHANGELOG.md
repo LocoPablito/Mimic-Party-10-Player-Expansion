@@ -1,5 +1,14 @@
 # Changelog
 
+## Packaging revision R2 — 30 September 2026
+
+- Promotes Expansion **1.1.5** to the stable, live-verified release path for Mimic Party **v0.2.5 / Steam build 25629135**.
+- Real Windows acceptance confirmed every required hook target resolved and every Harmony hook installed.
+- Confirmed the shared Classic/Versus capacity patch applied at RVA `0x1F8D915`.
+- Confirmed runtime self-check `mode0=10, mode1=10, mode2=10`.
+- Keeps the Expansion runtime at **1.1.5**; R2 finalizes packaging/documentation after live acceptance.
+- Requires stable BepInEx Pack **1.0.3** and Modding Core **1.0.0**.
+
 ## Runtime 1.1.5 — 30 September 2026
 
 - Adds explicit support for the captured Mimic Party **v0.2.5 / Steam build 25629135** GameAssembly fingerprint.
@@ -8,8 +17,8 @@
 - Explicitly routes v0.2.5 through the shared-helper path; the four legacy capacity patterns have no matches in the captured build.
 - Revalidates the required v0.2.5 interop target names for max-player, playback voice-isolation and rematch hooks.
 - Preserves the runtime 10/10/10 helper self-check and transactional patch verification.
-- Requires the BepInEx Pack **1.0.3** compatibility candidate for the new interop fingerprint.
-- Published as a **prerelease compatibility candidate** until live v0.2.5 hook/patch/UI acceptance passes.
+- Requires BepInEx Pack **1.0.3** for the new interop fingerprint.
+- Live v0.2.5 acceptance passed: all required hooks installed, the shared native capacity patch applied and the 10/10/10 helper self-check passed.
 
 ## Runtime 1.1.4 — 22 September 2026
 

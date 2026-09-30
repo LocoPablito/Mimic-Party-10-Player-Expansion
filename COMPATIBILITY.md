@@ -6,9 +6,9 @@
 - Windows x64 / Steam / IL2CPP
 - Unity **6000.4.2f1**
 - BepInEx **6.0.0-be.788**
-- BepInEx Pack candidate **1.0.3**
+- BepInEx Pack **1.0.3**
 - Modding Core **1.0.0**
-- Expansion candidate **1.1.5**
+- Expansion **1.1.5**
 
 GameAssembly.dll SHA-256:
 `02546fc8797c32a9f98a8b93a7eefc11f52fb58e83fd51db29fd83eb5601d25a`
@@ -41,7 +41,19 @@ The captured v0.2.5 interop assemblies retain the required hook target names:
 - `ResultsScreen.DropSilentPlayers(INetworkService)`
 - `GameState.ResetForRematch()`
 
-**Acceptance state:** static compatibility checks are complete. Expansion 1.1.5 is a prerelease candidate until a real v0.2.5 run confirms all Harmony hooks, the native shared-capacity patch, the 10/10/10 helper self-check and the updated Classic/Versus/lobby UI behavior.
+### Live acceptance
+
+A real v0.2.5 Windows run confirmed:
+
+- Pack 1.0.3 completed the interop compatibility repair and initialized the IL2CPP chainloader,
+- Core 1.0.0 loaded with the expected v0.2.5 fingerprints,
+- all required hook targets resolved,
+- all Harmony hooks installed,
+- the native shared-capacity patch applied at RVA `0x1F8D915`,
+- self-check `mode0=10, mode1=10, mode2=10`,
+- Expansion 1.1.5 declared itself active for 10 total Classic/Versus players.
+
+The runtime log establishes the hook/patch/self-check acceptance. As before, a complete ten-client match, every Versus team distribution and full large-group audio/rematch behavior are outside this specific startup acceptance claim.
 
 ## Mimic Party v0.2.33 — captured 22 September 2026
 

@@ -2,9 +2,9 @@
   "Author": "arribbaa",
   "Component": "expansion",
   "Version": "1.1.5",
-  "Revision": 1,
-  "Tag": "v1.1.5-r1",
-  "Prerelease": true,
+  "Revision": 2,
+  "Tag": "v1.1.5-r2",
+  "Prerelease": false,
   "Nexus": {
     "core": "https://www.nexusmods.com/mimicparty/mods/2",
     "expansion": "https://www.nexusmods.com/mimicparty/mods/1",
